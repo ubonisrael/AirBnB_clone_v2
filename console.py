@@ -2,6 +2,8 @@
 """ Console Module """
 import cmd
 import sys
+import re
+from datetime import datetime
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -73,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
+                    if pline[0] == '{' and pline[-1] == '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -115,13 +117,51 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
+        line = args
+        line_args = line.split(' ')
+        # check if first argument exists and if it is a valid class
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif line_args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+        # verify command syntax
+        # create copy of line args starting from 2nd index ie 1
+        line_args_cpy = line_args[1:]
+        sep = ' '
+        # join line args cpy to form new line
+        line_cpy = sep.join(line_args_cpy)
+
+        string_pattern = re.compile(r'(\w+)="([^"\\]*(?:\\.[^"\\]*)*)"')
+        integer_pattern = re.compile(r'(\w+)=(\d+)')
+        float_pattern = re.compile(r'(\w+)=(\d+\.\d+)')
+
+        # go through line cpy and get matches for param syntax
+        string_matches = string_pattern.findall(line_cpy)
+        int_matches = integer_pattern.findall(line_cpy)
+        float_matches = float_pattern.findall(line_cpy)
+
+        # create new instance of class
+        new_instance = HBNBCommand.classes[line_args[0]]()
+
+        # for every match we find, we add it to the instance's dict
+        for match in string_matches:
+            value = match[1].replace('_', ' ')
+            new_instance.__dict__[match[0]] = value
+
+        for match in int_matches:
+            try:
+                new_instance.__dict__[match[0]] = int(match[1])
+            except ValueError as e:
+                raise ValueError
+
+        for match in float_matches:
+            try:
+                new_instance.__dict__[match[0]] = float(match[1])
+            except ValueError as e:
+                raise ValueError
+
         storage.save()
         print(new_instance.id)
         storage.save()
@@ -187,7 +227,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del(storage.all()[key])
+            del (storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -272,7 +312,7 @@ class HBNBCommand(cmd.Cmd):
                 args.append(v)
         else:  # isolate args
             args = args[2]
-            if args and args[0] is '\"':  # check for quoted arg
+            if args and args[0] == '\"':  # check for quoted arg
                 second_quote = args.find('\"', 1)
                 att_name = args[1:second_quote]
                 args = args[second_quote + 1:]
@@ -280,10 +320,10 @@ class HBNBCommand(cmd.Cmd):
             args = args.partition(' ')
 
             # if att_name was not quoted arg
-            if not att_name and args[0] is not ' ':
+            if not att_name and args[0] != ' ':
                 att_name = args[0]
             # check for quoted val arg
-            if args[2] and args[2][0] is '\"':
+            if args[2] and args[2][0] == '\"':
                 att_val = args[2][1:args[2].find('\"', 1)]
 
             # if att_val was not quoted arg
@@ -319,6 +359,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
