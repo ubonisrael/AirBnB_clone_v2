@@ -61,7 +61,7 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """Deletes an obj for __objects if it's inside"""
+        """Deletes an obj from __objects if it's inside"""
         if obj is None:
             return
         # set an integer to zero to indicate an initial state of non-existence
