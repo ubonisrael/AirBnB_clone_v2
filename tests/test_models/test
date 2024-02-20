@@ -1,0 +1,75 @@
+import unittest
+from models.engine.file_storage import FileStorage
+from models.state import State
+
+
+class TestFileStorage(unittest.TestCase):
+    def setUp(self):
+        self.file_storage = FileStorage()
+
+    def test_delete_existing_object(self):
+        state = State()
+        state.name = "California"
+        self.file_storage.new(state)
+        self.file_storage.save()
+
+        object_id = state.id
+
+        self.assertIn(object_id, self.file_storage._FileStorage__objects)
+
+        self.file_storage.delete(state)
+
+        self.assertNotIn(object_id, self.file_storage._FileStorage__objects)
+
+    def test_delete_nonexistent_object(self):
+        state = State()
+        state.name = "California"
+
+        object_id = state.id
+
+        self.assertNotIn(object_id, self.file_storage._FileStorage__objects)
+
+        self.file_storage.delete(state)
+
+        self.assertNotIn(object_id, self.file_storage._FileStorage__objects)
+
+    def test_all_without_filtering(self):
+        state1 = State()
+        state1.name = "California"
+        self.file_storage.new(state1)
+        state2 = State()
+        state2.name = "Nevada"
+        self.file_storage.new(state2)
+        self.file_storage.save()
+
+        all_objects = self.file_storage.all()
+
+        self.assertEqual(len(all_objects), 2)
+        self.assertIn(state1.id, all_objects)
+        self.assertIn(state2.id, all_objects)
+
+    def test_all_with_filtering(self):
+        state1 = State()
+        state1.name = "California"
+        self.file_storage.new(state1)
+        self.file_storage.save()
+
+        state2 = State()
+        state2.name = "Nevada"
+        self.file_storage.new(state2)
+        self.file_storage.save()
+
+        all_states = self.file_storage.all(State)
+
+        self.assertEqual(len(all_states), 2)
+        self.assertIn(state1.id, all_states)
+        self.assertIn(state2.id, all_states)
+        self.assertIsInstance(all_states[state1.id], State)
+        self.assertIsInstance(all_states[state2.id], State)
+
+        all_users = self.file_storage.all(User)
+
+        self.assertEqual(len(all_users), 0)
+
+if __name__ == '__main__':
+    unittest.main()
