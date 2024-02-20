@@ -12,6 +12,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+from os import environ
 
 
 class HBNBCommand(cmd.Cmd):
@@ -134,8 +135,8 @@ class HBNBCommand(cmd.Cmd):
         line_cpy = sep.join(line_args_cpy)
 
         string_pattern = re.compile(r'(\w+)="([^"\\]*(?:\\.[^"\\]*)*)"')
-        integer_pattern = re.compile(r'(\w+)=(\d+)')
-        float_pattern = re.compile(r'(\w+)=(\d+\.\d+)')
+        integer_pattern = re.compile(r'(\w+)=(-?\d+)')
+        float_pattern = re.compile(r'(\w+)=(-?\d+\.\d+)')
 
         # go through line cpy and get matches for param syntax
         string_matches = string_pattern.findall(line_cpy)
@@ -162,9 +163,9 @@ class HBNBCommand(cmd.Cmd):
             except ValueError as e:
                 raise ValueError
 
+        storage.new(new_instance)
         storage.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -241,19 +242,35 @@ class HBNBCommand(cmd.Cmd):
         """ Shows all objects, or all objects of a class"""
         print_list = []
 
+        if environ.get('HBNB_TYPE_STORAGE') == 'db':
+            all_items = storage.all().items()
+        else:
+            all_items = storage._FileStorage__objects.items()
+
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in all_items:
                 if k.split('.')[0] == args:
-                    print_list.append(str(v))
+                    print_list.append(v)
         else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
+            for k, v in all_items:
+                print_list.append(v)
 
-        print(print_list)
+        # print the contents of print_list
+        length = len(print_list)
+        if length <= 0:
+            return
+        print("[", end="")
+        for item in print_list:
+            print(item, end='')
+            length -= 1
+            if length > 0:
+                print(", ", end="")
+            else:
+                print("]")
 
     def help_all(self):
         """ Help information for the all command """
