@@ -18,9 +18,8 @@ class DBStorage:
     __session = None
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
+               'State': State, 'City': City, 'User': User,
+               'Place': Place
               }
 
     def __init__(self):
@@ -50,7 +49,7 @@ class DBStorage:
         else:
             query_result = []
             for class_ in DBStorage.classes.values():
-                query_result.extend(self.__session.query(class_).all())
+                query_result.extend( self.__session.query(class_).all())
         
         for obj in query_result:
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
