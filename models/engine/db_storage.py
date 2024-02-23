@@ -49,8 +49,8 @@ class DBStorage:
         else:
             query_result = []
             for class_ in DBStorage.classes.values():
-                query_result.extend( self.__session.query(class_).all())
-        
+                query_result.extend(self.__session.query(class_).all())
+
         for obj in query_result:
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
             obj_dict[key] = obj
@@ -62,7 +62,7 @@ class DBStorage:
         if obj is None:
             return
         self.__session.add(obj)
-        
+
     def save(self):
         """Commits all changes to the current db session"""
         self.__session.commit()
@@ -71,7 +71,8 @@ class DBStorage:
         """Deletes an object from the current database session"""
         if obj is not None:
             cls = DBStorage.classes[obj.__class__.__name__]
-            self.__session.query(cls).filter(cls.id == obj.id).delete(synchronize_session='fetch')
+            self.__session.query(cls).filter(cls.id == obj.id).delete(
+                synchronize_session='fetch')
 
     def reload(self):
         """Creates all tables in the db"""
