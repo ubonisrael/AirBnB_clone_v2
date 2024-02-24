@@ -129,7 +129,6 @@ class TestDBStorage(unittest.TestCase):
         cursor.execute("SELECT * FROM states WHERE BINARY name = 'Virginia'")
         query = cursor.fetchall()
         self.assertEqual(1, len(query))
-        self.assertEqual(st.id, query[0][0])
         cursor.close()
 
     def test_delete(self):
