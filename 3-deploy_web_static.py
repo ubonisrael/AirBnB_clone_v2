@@ -11,6 +11,7 @@ env.hosts = ['34.204.81.235', '18.234.107.45']
 env.key_filename = "~/.ssh/id_rsa_alx"
 
 
+@runs_once
 def do_pack():
     """generates a .tgz archive from the
     contents of the web_static folder"""
