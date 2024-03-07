@@ -81,7 +81,5 @@ def deploy():
     path = do_pack()
     if path is None:
         return False
-    if not path.exists(path):
-        return False
 
     return do_deploy(path)
