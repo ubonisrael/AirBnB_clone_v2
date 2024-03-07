@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # A script that installs a nginx server
-sudo apt-get update
+sudo apt-get update -y
 sudo apt-get install nginx -y
 sudo mkdir -p /data/
 sudo mkdir -p /data/web_static/releases/
@@ -18,8 +18,6 @@ printf %s "<html>
 </html>
 " > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
-echo "Ceci n'est pas une page" > /var/www/html/404.html
 printf %s "server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -35,10 +33,6 @@ printf %s "server {
     location /hbnb_static {
         alias /data/web_static/current/;
         autoindex off;
-    }
-
-    location /redirect_me {
-        return 301 https://www.goal.com;
     }
 }
 " > /etc/nginx/sites-available/default
