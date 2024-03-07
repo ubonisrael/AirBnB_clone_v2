@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 # A script that installs a nginx server
-sudo apt-get update -y
-sudo apt-get install nginx -y
-sudo mkdir -p /data/
-sudo mkdir -p /data/web_static/releases/
-sudo mkdir -p /data/web_static/shared/
-sudo mkdir -p /data/web_static/releases/test/
-sudo chown -R ubuntu:ubuntu /data/
-sudo chown -R ubuntu:ubuntu /etc/nginx
+apt-get update -y
+apt-get install nginx -y
+mkdir -p /data/web_static/shared/
+mkdir -p /data/web_static/releases/test/
+chown -R ubuntu:ubuntu /data/
+chown -R ubuntu:ubuntu /etc/nginx
 printf %s "<html>
   <head>
   </head>
@@ -43,4 +41,5 @@ printf %s "server {
     }
 }
 " > /etc/nginx/sites-available/default
-sudo service nginx restart
+service nginx restart
+exit 0
