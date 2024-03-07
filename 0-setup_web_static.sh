@@ -7,6 +7,8 @@ sudo mkdir -p /data/web_static/releases/
 sudo mkdir -p /data/web_static/shared/
 sudo mkdir -p /data/web_static/releases/test/
 sudo chown -R ubuntu:ubuntu /data/
+sudo chown -R ubuntu:ubuntu /var/www
+sudo chown -R ubuntu:ubuntu /etc/nginx
 printf %s "<html>
   <head>
   </head>
@@ -16,8 +18,6 @@ printf %s "<html>
 </html>
 " > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
-sudo chown -R "$USER":"$USER" /var/www
-sudo chown -R "$USER":"$USER" /etc/nginx
 echo "Hello World!" > /var/www/html/index.nginx-debian.html
 echo "Ceci n'est pas une page" > /var/www/html/404.html
 printf %s "server {
@@ -30,7 +30,7 @@ printf %s "server {
 
     server_name _;
 
-    add_header X-Served-By "$HOSTNAME";
+    add_header X-Served-By $HOSTNAME;
 
     location /hbnb_static {
         alias /data/web_static/current/;
@@ -39,12 +39,6 @@ printf %s "server {
 
     location /redirect_me {
         return 301 https://www.goal.com;
-    }
-
-    error_page 404 /404.html;
-    location = /404.html {
-                root /var/www/html;
-                internal;
     }
 }
 " > /etc/nginx/sites-available/default
