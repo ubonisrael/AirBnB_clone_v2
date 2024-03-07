@@ -78,8 +78,10 @@ def do_deploy(archive_path):
 
 def deploy():
     """Deploys an archive to web servers"""
-    archive_path = do_pack()
-    if not path.exists(archive_path):
+    path = do_pack()
+    if path is None:
+        return False
+    if not path.exists(path):
         return False
 
-    return do_deploy(archive_path)
+    return do_deploy(path)
