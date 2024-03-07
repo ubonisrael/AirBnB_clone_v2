@@ -12,6 +12,11 @@ $server_config = "server {
 
     add_header X-Served-By \"${hostname}\";
 
+    location /hbnb_static {
+        alias /data/web_static/current/;
+        index index.html index.htm;
+    }
+
     location /redirect_me {
         return 301 https://www.goal.com;
     }
