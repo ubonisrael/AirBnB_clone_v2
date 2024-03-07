@@ -18,8 +18,7 @@ def do_pack():
     """generates a .tgz archive from the
     contents of the web_static folder"""
     tp = datetime.now()
-    filename = "web_static_{}{}{}{}{}{}.tgz".format(
-        tp.year, tp.month, tp.day, tp.hour, tp.minute, tp.second)
+    filename = "web_static_{}.tgz".format()
     create_folder()
     res = local("tar -czf versions/{} ./web_static".format(filename),
                 capture=True)

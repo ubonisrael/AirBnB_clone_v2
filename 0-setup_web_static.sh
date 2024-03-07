@@ -22,8 +22,8 @@ printf %s "server {
     listen [::]:80 default_server;
     add_header X-Served-By $HOSTNAME;
 
-    root /var/www/html;
-    index index.html index.htm index.nginx-debian.html;
+    # root /var/www/html;
+    # index index.html index.htm index.nginx-debian.html;
 
     server_name _;
 
@@ -32,15 +32,15 @@ printf %s "server {
         index index.html index.htm;
     }
 
-    location /redirect_me {
-        return 301 https://www.goal.com;
-    }
+    # location /redirect_me {
+    #     return 301 https://www.goal.com;
+    # }
 
-    error_page 404 /404.html;
-    location = /404.html {
-                root /var/www/html;
-                internal;
-    }
+    # error_page 404 /404.html;
+    # location = /404.html {
+    #             root /var/www/html;
+    #             internal;
+    # }
 }
 " > /etc/nginx/sites-available/default
 sudo service nginx restart
