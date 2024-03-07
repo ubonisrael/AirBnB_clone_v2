@@ -26,9 +26,10 @@ def do_pack():
     return "versions/{}".format(filename)
 
 
-def deploy():
+def do_deploy(archive_path):
     """Deploys an archive to web servers"""
-    archive_path = do_pack()
+    # if archive_path is None:
+    #     return False
     if not path.exists(archive_path):
         return False
 
@@ -73,3 +74,12 @@ def deploy():
     if cmd.failed is True:
         return None
     return True
+
+
+def deploy():
+    """Deploys an archive to web servers"""
+    archive_path = do_pack()
+    if not path.exists(archive_path):
+        return False
+
+    return do_deploy(archive_path)
