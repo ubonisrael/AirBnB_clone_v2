@@ -40,7 +40,7 @@ require => Exec['update server']
 exec { 'create web static dirs':
 provider => shell,
 command  => 'mkdir -p /data/web_static/shared/ && mkdir -p /data/web_static/releases/test/',
-before   => Exec['change ownershp of data']
+before   => Exec['link current to test dir']
 }
 
 file { '/etc/nginx/sites-available/default':
@@ -50,16 +50,10 @@ require => Package['nginx'],
 notify  => Exec['restart Nginx']
 }
 
-exec { 'change ownershp of data':
-provider => shell,
-command  => 'chown -R ubuntu:ubuntu /data/',
-before   => File['/etc/nginx/sites-available/default']
-}
-
 exec { 'link current to test dir':
 provider => shell,
-command  => 'ln -sf /data/web_static/releases/test/ /data/web_static/current',
-before   => File['/etc/nginx/sites-available/default']
+command  => 'ln -sf /data/web_static/releases/test/ /data/web_static/current && chown -R ubuntu:ubuntu /data/',
+before   => File['/etc/nginx/sites-available/default'],
 }
 
 file { '/var/www/html/index.nginx-debian.html':
