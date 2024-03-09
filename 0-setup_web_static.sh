@@ -4,8 +4,7 @@ apt-get update -y
 apt-get install nginx -y
 mkdir -p /data/web_static/shared/
 mkdir -p /data/web_static/releases/test/
-chown -R ubuntu:ubuntu /data/
-chown -R ubuntu:ubuntu /etc/nginx
+
 printf %s "<html>
   <head>
   </head>
@@ -15,6 +14,10 @@ printf %s "<html>
 </html>
 " > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
+
+chown -R ubuntu:ubuntu /data/
+chown -R ubuntu:ubuntu /etc/nginx
+
 printf %s "server {
     listen 80 default_server;
     listen [::]:80 default_server;
