@@ -1,0 +1,16 @@
+<!doctype html>
+<title>Hello from Flask</title>
+<HTML lang="en">
+    <HEAD>
+        <TITLE>HBNB</TITLE>
+    </HEAD>
+    <BODY>
+        <H1>States</H1>
+        <UL>
+            {% for item in states_list|sort(attribute="name") %}
+            <LI>{{ item['id'] }}: <B>{{ item['name'] }}</B></LI>
+            {% endfor %}
+        </UL>
+    </BODY>
+</HTML>
+<!DOCTYPE html>
