@@ -31,7 +31,7 @@ class FileStorage:
         cls_dict = {}
         for my_obj in FileStorage.__objects:
             myobj_cls = my_obj.split('.')[0]
-            if myobj_cls == FileStorage.classes[cls].__name__:
+            if myobj_cls == cls.__name__:
                 cls_dict[my_obj] = FileStorage.__objects[my_obj]
         return cls_dict
 
