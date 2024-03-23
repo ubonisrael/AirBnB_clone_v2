@@ -14,38 +14,6 @@ def teardown_db(exception):
     storage.close()
 
 
-@app.route("/states_list", strict_slashes=False)
-def states_list_page():
-    """displays a page containing states"""
-    states_list = storage.all(State).values()
-    return render_template('7-states_list.html', states_list=states_list)
-
-
-@app.route("/cities_by_states", strict_slashes=False)
-def cities_by_states():
-    """displays a page containing states"""
-    states_list = storage.all(State).values()
-    return render_template('8-cities_by_states.html', states_list=states_list)
-
-
-@app.route("/states", strict_slashes=False)
-def states_page():
-    """List all states in the database"""
-    states_list = storage.all(State).values()
-    return render_template('7-states_list.html', states_list=states_list)
-
-
-@app.route("/states/<id>", strict_slashes=False)
-def state_page(id):
-    """List all cities in a state in the database"""
-    state = None
-    for item in storage.all(State).values():
-        if item.id == id:
-            state = item
-            break
-    return render_template('9-states.html', state=state)
-
-
 @app.route("/hbnb_filters", strict_slashes=False)
 def hbnb_filters():
     """Filters through cities and states in DB"""
