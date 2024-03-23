@@ -15,7 +15,7 @@ def states_list_page():
 
 
 @app.teardown_appcontext
-def teardown_db(exception):
+def teardown_db(exception=None):
     """closes the connection to the database"""
     storage.close()
 
