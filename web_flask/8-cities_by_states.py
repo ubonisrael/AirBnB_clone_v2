@@ -13,15 +13,6 @@ def teardown_db(exception):
     storage.close()
 
 
-@app.route("/states_list", strict_slashes=False)
-def states_list_page():
-    """displays a page containing states"""
-    states_list = []
-    for item in storage.all(State).values():
-        states_list.append(item)
-    return render_template('7-states_list.html', states_list=states_list)
-
-
 @app.route("/cities_by_states", strict_slashes=False)
 def cities_by_states():
     """displays a page containing states"""
