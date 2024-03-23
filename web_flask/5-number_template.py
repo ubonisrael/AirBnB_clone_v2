@@ -45,3 +45,7 @@ def num_route(n):
 def num_template_route(number):
     """returns a response for the number_template dir route"""
     return render_template('5-number.html', number=number)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

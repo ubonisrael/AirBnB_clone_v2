@@ -39,3 +39,7 @@ def python_dir(text):
 def num_route(n):
     """returns a response for the number dir route"""
     return "{} is a number".format(n)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

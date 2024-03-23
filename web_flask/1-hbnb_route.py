@@ -15,3 +15,7 @@ def hello():
 def hello_hbnb():
     """returns a response for the hbnb route"""
     return "HBNB"
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

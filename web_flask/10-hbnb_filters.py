@@ -63,3 +63,7 @@ def hbnb_filters():
         amenities_list.append(item)
     return render_template('10-hbnb_filters.html',
                            states=states_list, amenities=amenities_list)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

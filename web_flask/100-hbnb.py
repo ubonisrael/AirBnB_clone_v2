@@ -33,3 +33,7 @@ def hbnb():
     return render_template('100-hbnb.html',
                            states=states_list, amenities=amenities_list,
                            places=places_list, users=users_list)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

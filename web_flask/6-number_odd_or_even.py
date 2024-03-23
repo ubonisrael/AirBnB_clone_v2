@@ -55,3 +55,7 @@ def num_odd_or_even_route(number):
     even = True if number % 2 == 0 else False
     return render_template('6-number_odd_or_even.html',
                            number=number, even=even)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

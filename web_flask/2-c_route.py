@@ -21,3 +21,7 @@ def hello_hbnb():
 def c_dir(text):
     """returns a response for the c dir route"""
     return "C {}".format(text.replace("_", " "))
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

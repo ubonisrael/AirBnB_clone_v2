@@ -33,3 +33,7 @@ def hello_python():
 def python_dir(text):
     """returns a response for the python dir route"""
     return "Python {}".format(text.replace("_", " "))
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

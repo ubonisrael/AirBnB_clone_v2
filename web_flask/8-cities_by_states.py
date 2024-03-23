@@ -31,3 +31,7 @@ def cities_by_states():
         states_list.append(item)
         print(item.cities)
     return render_template('8-cities_by_states.html', states_list=states_list)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

@@ -9,3 +9,7 @@ app = Flask(__name__)
 def hello():
     """returns a response for the index route"""
     return "Hello HBNB!"
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

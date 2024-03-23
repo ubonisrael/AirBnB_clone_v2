@@ -50,3 +50,7 @@ def state_page(id):
             state = item
             break
     return render_template('9-states.html', state=state)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

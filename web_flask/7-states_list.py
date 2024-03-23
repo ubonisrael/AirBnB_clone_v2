@@ -21,3 +21,7 @@ def states_list_page():
     for item in storage.all("State").values():
         states_list.append(item)
     return render_template('7-states_list.html', states_list=states_list)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
