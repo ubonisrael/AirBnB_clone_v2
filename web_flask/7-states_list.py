@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 
 @app.teardown_appcontext
-def teardown_db(exception=None):
+def teardown_db(exception):
     """closes the connection to the database"""
     storage.close()
 
@@ -16,8 +16,8 @@ def teardown_db(exception=None):
 @app.route("/states_list", strict_slashes=False)
 def states_list_page():
     """displays a page containing states"""
-    states_list = storage.all(State)
-    return render_template('7-states_list.html', states_list=states_list)
+    states_list = storage.all(State).values()
+    return render_template('7-states_list.html', states=states_list)
 
 
 if __name__ == "__main__":
